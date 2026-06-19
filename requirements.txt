@@ -1,0 +1,12 @@
+beautifulsoup4
+fastapi
+feedparser
+httpx
+pydantic
+pydantic-settings
+pypdf
+pytest
+python-dotenv
+slowapi
+sqlmodel
+uvicorn

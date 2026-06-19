@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["sources*", "pipeline*", "storage*", "notify*", "compliance*"]
+
+[project]
+name = "job-crawler"
+version = "1.0.0"
+description = "Multi-source job hunting pipeline with AI-powered matching"
+requires-python = ">=3.11"
+dependencies = [
+    "httpx[http2]>=0.27",
+    "beautifulsoup4>=4.12",
+    "lxml>=5.0",
+    "feedparser>=6.0",
+    "sqlmodel>=0.0.22",
+    "pydantic-settings>=2.0",
+    "scikit-learn>=1.4",
+    "rapidfuzz>=3.6",
+    "pdfplumber>=0.11",
+    "python-docx>=1.1",
+    "apscheduler>=3.10,<4.0",
+    "tenacity>=8.2",
+    "python-dateutil>=2.9",
+    "numpy>=1.26",
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.34",
+]
+
+[project.optional-dependencies]
+playwright = ["playwright>=1.40"]
+local-embeddings = ["sentence-transformers>=2.5", "torch>=2.1"]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.23",
+    "pytest-cov>=5.0",
+    "ruff>=0.4",
+]
+
+[project.scripts]
+job-crawler = "main:cli"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
