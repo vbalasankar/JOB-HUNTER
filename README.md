@@ -18,7 +18,6 @@ JobHunter is an intelligent, AI-powered job aggregator and personalized recommen
   - [Scoring and Ranking](#scoring-and-ranking)
   - [Filtering](#filtering)
 - [Getting Started](#getting-started)
-- [Testing & Quality Assurance](#testing--quality-assurance)
 - [Key Design Decisions](#key-design-decisions)
 - [License](#license)
 
@@ -235,18 +234,6 @@ npm run dev
 
 Visit `http://localhost:3000` to access your JobHunter dashboard.
 
----
-
-## Testing & Quality Assurance
-
-JobHunter implements a robust automated testing strategy encompassing:
-
-- **Unit & Integration Testing (Backend):** Run `pytest` from the root directory to execute tests against FastAPI endpoints and ML logic.
-- **End-to-End Testing (Frontend):** Run `npx playwright test` inside the `web/` directory to simulate UI workflows across browsers.
-- **Performance Testing:** Execute `k6 run performance/load_test.js` to run load testing against the API. 
-- **Security Scans**: CI/CD pipelines automate `npm audit` and `pip-audit` checks on all pull requests.
-
----
 
 ## Key Design Decisions
 
