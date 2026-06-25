@@ -92,7 +92,23 @@ class Settings(BaseSettings):
         "uncorrelated,"
         "openai,bytedance,wiz,spacex,revolut,chime,monday-com,xiaohongshu,"
         "shein,pony-ai,nubank,celonis,navan,robinhood,biren-technology,"
-        "cyera,devoted-health,kuaishou,geek-plus,crusoe-energy"
+        "cyera,devoted-health,kuaishou,geek-plus,crusoe-energy,"
+        "bloomberg,spotify,snap,yelp,bulb,mobiquity,expensify,free-now,marks-and-spencer,"
+        "ef-education-first,contentful,intercom,curve,lego-group,wise,algolia,payfit,sumup,"
+        "trainline,deliveroo,collibra,barclays,zalando,ubisoft,klarna,delivery-hero,adnymics,"
+        "hive,n26,signavio,wayfair,trivago,babbel,personio,rapidapi,hellofresh,taxfix,blinkist,"
+        "soundcloud,pitch,qonto,gorillas,project44,trade-republic,immobilienscout24,clark,forto,"
+        "raisin,invision,tipico,container-xchange,sunday,celus,civey,back-market,navvis,e-bot7,"
+        "bigpoint,fashion-cloud,uber,booking-com,reaktor,evalan,picnic-technologies,adidas,"
+        "verizon-connect,squarespace,etsy,jpmorgan-chase,glovo,swisscom,diet-doctor,bending-spoons,"
+        "agentur-loop,blablacar,getaround,deezer,shopee,grab,gojek,ninja-van,foodpanda,zendesk,"
+        "circles-life,mercari,fast-retailing,agoda,capital-one,square,shopify,kiwi-com,bolt,"
+        "automattic,github,zapier,buffer,canonical,duckduckgo,doist,hotjar,sourcegraph,mozilla,"
+        "red-hat,customer-io,assemblyai,brave,ghost,coursera,digitalocean,docker,discourse,"
+        "gitbook,khan-academy,toggl,wikimedia,quora,signal,trello,basecamp,toptal,timedoctor,"
+        "help-scout,mailerlite,modus-create,clevertech,consensys,datastax,envato,ergeon,feeld,"
+        "factorial,headspin,jibble,judge-me,logit-io,nearform,opencraft,pleo,redox,searchapi,"
+        "shakacode,shiphero,shogun,softwaremill,stack-exchange,svix,taskade,ted,thorn,trm-labs,tyk"
     )
 
     # Lever: companies using Lever ATS
@@ -122,7 +138,23 @@ class Settings(BaseSettings):
         "uncorrelated,"
         "openai,bytedance,wiz,spacex,revolut,chime,monday-com,xiaohongshu,"
         "shein,pony-ai,nubank,celonis,navan,robinhood,biren-technology,"
-        "cyera,devoted-health,kuaishou,geek-plus,crusoe-energy"
+        "cyera,devoted-health,kuaishou,geek-plus,crusoe-energy,"
+        "bloomberg,spotify,snap,yelp,bulb,mobiquity,expensify,free-now,marks-and-spencer,"
+        "ef-education-first,contentful,intercom,curve,lego-group,wise,algolia,payfit,sumup,"
+        "trainline,deliveroo,collibra,barclays,zalando,ubisoft,klarna,delivery-hero,adnymics,"
+        "hive,n26,signavio,wayfair,trivago,babbel,personio,rapidapi,hellofresh,taxfix,blinkist,"
+        "soundcloud,pitch,qonto,gorillas,project44,trade-republic,immobilienscout24,clark,forto,"
+        "raisin,invision,tipico,container-xchange,sunday,celus,civey,back-market,navvis,e-bot7,"
+        "bigpoint,fashion-cloud,uber,booking-com,reaktor,evalan,picnic-technologies,adidas,"
+        "verizon-connect,squarespace,etsy,jpmorgan-chase,glovo,swisscom,diet-doctor,bending-spoons,"
+        "agentur-loop,blablacar,getaround,deezer,shopee,grab,gojek,ninja-van,foodpanda,zendesk,"
+        "circles-life,mercari,fast-retailing,agoda,capital-one,square,shopify,kiwi-com,bolt,"
+        "automattic,github,zapier,buffer,canonical,duckduckgo,doist,hotjar,sourcegraph,mozilla,"
+        "red-hat,customer-io,assemblyai,brave,ghost,coursera,digitalocean,docker,discourse,"
+        "gitbook,khan-academy,toggl,wikimedia,quora,signal,trello,basecamp,toptal,timedoctor,"
+        "help-scout,mailerlite,modus-create,clevertech,consensys,datastax,envato,ergeon,feeld,"
+        "factorial,headspin,jibble,judge-me,logit-io,nearform,opencraft,pleo,redox,searchapi,"
+        "shakacode,shiphero,shogun,softwaremill,stack-exchange,svix,taskade,ted,thorn,trm-labs,tyk"
     )
 
     # Ashby: companies using Ashby ATS
@@ -149,7 +181,23 @@ class Settings(BaseSettings):
         "uncorrelated,"
         "bytedance,wiz,spacex,revolut,chime,monday-com,xiaohongshu,"
         "shein,pony-ai,nubank,celonis,navan,robinhood,biren-technology,"
-        "cyera,devoted-health,kuaishou,geek-plus,crusoe-energy"
+        "cyera,devoted-health,kuaishou,geek-plus,crusoe-energy,"
+        "bloomberg,spotify,snap,yelp,bulb,mobiquity,expensify,free-now,marks-and-spencer,"
+        "ef-education-first,contentful,intercom,curve,lego-group,wise,algolia,payfit,sumup,"
+        "trainline,deliveroo,collibra,barclays,zalando,ubisoft,klarna,delivery-hero,adnymics,"
+        "hive,n26,signavio,wayfair,trivago,babbel,personio,rapidapi,hellofresh,taxfix,blinkist,"
+        "soundcloud,pitch,qonto,gorillas,project44,trade-republic,immobilienscout24,clark,forto,"
+        "raisin,invision,tipico,container-xchange,sunday,celus,civey,back-market,navvis,e-bot7,"
+        "bigpoint,fashion-cloud,uber,booking-com,reaktor,evalan,picnic-technologies,adidas,"
+        "verizon-connect,squarespace,etsy,jpmorgan-chase,glovo,swisscom,diet-doctor,bending-spoons,"
+        "agentur-loop,blablacar,getaround,deezer,shopee,grab,gojek,ninja-van,foodpanda,zendesk,"
+        "circles-life,mercari,fast-retailing,agoda,capital-one,square,shopify,kiwi-com,bolt,"
+        "automattic,github,zapier,buffer,canonical,duckduckgo,doist,hotjar,sourcegraph,mozilla,"
+        "red-hat,customer-io,assemblyai,brave,ghost,coursera,digitalocean,docker,discourse,"
+        "gitbook,khan-academy,toggl,wikimedia,quora,signal,trello,basecamp,toptal,timedoctor,"
+        "help-scout,mailerlite,modus-create,clevertech,consensys,datastax,envato,ergeon,feeld,"
+        "factorial,headspin,jibble,judge-me,logit-io,nearform,opencraft,pleo,redox,searchapi,"
+        "shakacode,shiphero,shogun,softwaremill,stack-exchange,svix,taskade,ted,thorn,trm-labs,tyk"
     )
 
     # --- Tier 2: Aggregator toggles ---
@@ -185,7 +233,32 @@ class Settings(BaseSettings):
     generate_manual_urls: bool = True
 
     # --- News ---
-    news_sources: str = "hackernews,techcrunch,theverge,arstechnica,devto,producthunt"
+    news_sources: str = (
+        "hackernews,techcrunch,techmeme,the_information,venturebeat,geekwire,sifted,"
+        "crunchbase_news,indie_hackers,producthunt,startup_grind,ycombinator_blog,"
+        "first_round_review,openview_blog,a16z_blog,sequoia_blog,bvp_blog,nfx_blog,"
+        "signalfire_blog,saastr,both_sides,avc,tomasz_tunguz,feld_thoughts,tech_eu,"
+        "eu_startups,siliconangle,alleywatch,finsmes,theverge,wired,arstechnica,cnet,"
+        "zdnet,mashable,techradar,digital_trends,slashdot,engadget,gizmodo,fast_company_tech,"
+        "pcmag,toms_hardware,android_authority,android_central,macrumors,9to5mac,9to5google,"
+        "xda_developers,windows_central,mit_tech_review_ai,bens_bites,the_batch,import_ai,"
+        "latent_space,ai_supremacy,the_rundown_ai,superhuman_ai,alphasignal,interconnects,"
+        "last_week_in_ai,machine_learning_street_talk,hugging_face_blog,openai_blog,anthropic_news,"
+        "deepmind_blog,stability_ai_blog,scale_ai_blog,nvidia_blog,towards_ai,kdnuggets,"
+        "infoq,github_blog,stack_overflow_blog,cloudflare_blog,netflix_tech_blog,uber_engineering,"
+        "airbnb_engineering,spotify_engineering,meta_engineering,google_developers_blog,aws_news_blog,"
+        "microsoft_dev_blogs,stripe_engineering,slack_engineering,linkedin_engineering,"
+        "pinterest_engineering,dropbox_tech_blog,discord_engineering,datadog_engineering,"
+        "shopify_engineering,cockroach_labs_blog,confluent_blog,planetscale_blog,vercel_blog,"
+        "hashicorp_blog,krebs_on_security,the_hacker_news,dark_reading,bleepingcomputer,securityweek,"
+        "help_net_security,sans_newsbites,schneier_on_security,threatpost,security_boulevard,"
+        "malwarebytes_labs,cisco_talos_blog,mandiant_blog,crowdstrike_blog,stratechery,platformer,"
+        "big_technology,semafor_technology,bloomberg_technology,cnbc_technology,fortune_tech,"
+        "financial_times_tech,reuters_technology,wsj_technology,axios_pro_rata,dealbook,"
+        "protocol_archive,quartz_tech,hashnode,freecodecamp,css_tricks,smashing_magazine,"
+        "sitepoint,dzone,hackernoon,codrops,javascript_weekly,python_weekly,golang_weekly,"
+        "tldr_newsletter,bytes_dev,devto"
+    )
     news_cache_ttl_seconds: int = 300
 
     # --- Notification ---
