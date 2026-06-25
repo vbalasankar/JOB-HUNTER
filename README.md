@@ -42,7 +42,7 @@ Both pipelines are combined and ranked together using the **JobHunter Matcher**,
 │                         (Next.js 16 • React 19 • Firebase Auth)                             │
 └─────────────────────────────────────────────────────────────────────────────────────────────┘
                                  │                           │
-                   [Job Feed Request]                  [Resume Upload]
+                   [Job Feed Request]                  [Resume & JD Analysis]
                                  ▼                           ▼
 ┌─────────────────────────────────────────────────────────────────────────────────────────────┐
 │                                    FASTAPI BACKEND CORE                                     │
@@ -50,8 +50,8 @@ Both pipelines are combined and ranked together using the **JobHunter Matcher**,
 ├─────────────────────────────────────────────────────────────────────────────────────────────┤
 │                                                                                             │
 │   ┌────────────────────────────────┐                 ┌──────────────────────────────────┐   │
-│   │        NEWS AGGREGATOR         │                 │         ATS RESUME ENGINE        │   │
-│   │  (Hacker News & Startup RSS)   │                 │  (Local PDF/Text Skill Parsing)  │   │
+│   │        NEWS AGGREGATOR         │                 │    ENTERPRISE ATS ENGINE         │   │
+│   │  (Hacker News & Startup RSS)   │                 │ (10-Signal Intelligence Engine)  │   │
 │   └────────────────────────────────┘                 └──────────────────────────────────┘   │
 │                                                                                             │
 │   ┌─────────────────────────────────────────────────────────────────────────────────────┐   │
@@ -132,6 +132,18 @@ It provides real-time ATS resume analysis, tech news aggregation, and a highly p
 **Location:** `server.py` and `main.py`
 
 The asynchronous execution loop that drives the data retrieval and ML inference. It exposes robust REST API endpoints to the frontend, protected by `slowapi` rate limiting. It handles the heavy lifting of parsing PDFs, hydrating embeddings, and executing concurrent API calls to job sources.
+
+---
+
+### Enterprise ATS Engine
+
+**Location:** [`pipeline/ats/`](pipeline/ats/)
+
+A completely decoupled, recruiter-grade ATS matching engine. Unlike standard keyword counters, this 4-phase local engine computes a 10-signal analysis using:
+1. **Dynamic Skill Weighting**: Weights skills based on JD placement, frequency, and 6 role-specific profiles.
+2. **Semantic Extraction**: Uses `sentence-transformers` for section-aware semantic similarity.
+3. **Trust & Consistency**: Checks parseability, detects contradictions, and extracts quantified achievements/leadership verbs.
+4. **Actionable Suggestions**: Generates context-aware rewrite suggestions to fix critical resume gaps.
 
 ---
 
