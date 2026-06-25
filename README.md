@@ -277,4 +277,4 @@ By defining strict API sources alongside broad RSS aggregators, the system casts
 
 ## License
 
-This project and its source code are proprietary. All rights reserved. Do not distribute.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
