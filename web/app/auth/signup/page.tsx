@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { signInWithPopup } from "firebase/auth";
+import { signInWithPopup, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, googleProvider } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -11,9 +11,14 @@ export default function SignupPage() {
   const [error, setError] = useState("");
   const router = useRouter();
 
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const handleGoogleSignup = async () => {
     if (!auth || !googleProvider) {
-      router.push("/dashboard/settings"); // Go to settings to complete profile on first signup
+      router.push("/dashboard/settings");
       return;
     }
 
@@ -21,8 +26,6 @@ export default function SignupPage() {
     setError("");
     try {
       await signInWithPopup(auth, googleProvider);
-      // Ideally, we'd check if it's a new user and route to onboarding,
-      // but for simplicity we route to settings
       router.push("/dashboard/settings");
     } catch (err: any) {
       setError(err.message || "Failed to sign up with Google.");
@@ -30,39 +33,66 @@ export default function SignupPage() {
     }
   };
 
+  const handleEmailSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!auth) {
+      router.push("/dashboard/settings");
+      return;
+    }
+
+    if (!firstName || !lastName || !email || !password) {
+      setError("Please fill in all fields.");
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      await updateProfile(userCredential.user, {
+        displayName: `${firstName} ${lastName}`
+      });
+      router.push("/dashboard/settings");
+    } catch (err: any) {
+      setError(err.message || "Failed to create account.");
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-dvh flex items-center justify-center p-4">
-      <div className="w-full max-w-md space-y-8 glass rounded-2xl p-8">
+      <div className="w-full max-w-md space-y-6 glass rounded-2xl p-8">
         <div className="flex flex-col items-center text-center">
           <Link href="/" className="flex items-center justify-center mb-6">
             <img
-              src="/logo.png"
+              src="/icon.png"
               alt="JH Logo"
-              className="w-12 h-12 object-contain dark:invert rounded-xl"
+              className="w-12 h-12 object-contain"
+              onError={(e) => {
+                e.currentTarget.src = "/logo.png"; // fallback
+              }}
             />
           </Link>
           <h2
-            className="text-3xl font-semibold text-[var(--color-text)] tracking-tight"
+            className="text-2xl font-semibold text-[var(--color-text)] tracking-tight"
             style={{ fontFamily: "var(--font-heading)" }}
           >
-            Create an account
+            Create a new account
           </h2>
           <p className="mt-2 text-sm text-[var(--color-text-secondary)]">
-            Join JobHunter to start finding the perfect role.
+            Get matched with jobs tailored to your skills, passions, and experience and track your applications – all for free.
           </p>
         </div>
 
         {error && (
           <div className="flex items-center gap-2 p-3 rounded-lg bg-[var(--color-danger)]/10 border border-[var(--color-danger)]/20">
-            <p className="text-xs text-[var(--color-danger)] font-bold">
-              Error:
-            </p>
             <p className="text-xs text-[var(--color-danger)]">{error}</p>
           </div>
         )}
 
         <div className="space-y-4">
           <button
+            type="button"
             onClick={handleGoogleSignup}
             disabled={loading}
             className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl bg-white text-black text-sm font-semibold hover:bg-gray-100 transition-colors disabled:opacity-50"
@@ -93,14 +123,86 @@ export default function SignupPage() {
           </button>
         </div>
 
+        <div className="relative">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-[var(--color-border)]"></div>
+          </div>
+          <div className="relative flex justify-center text-sm">
+            <span className="px-2 bg-[var(--color-surface)] text-[var(--color-text-muted)]">or</span>
+          </div>
+        </div>
+
+        <form onSubmit={handleEmailSignup} className="space-y-4">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <label className="text-xs font-medium text-[var(--color-text-secondary)]">First name</label>
+              <input
+                type="text"
+                placeholder="First name"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                className="w-full px-4 py-2.5 rounded-xl bg-[var(--color-surface-3)] border border-[var(--color-border)] text-sm text-[var(--color-text)] placeholder:text-[var(--color-text-muted)] focus:outline-none focus:border-[var(--color-accent)]/50 transition-colors"
+                required
+              />
+            </div>
+            <div className="space-y-1">
+              <label className="text-xs font-medium text-[var(--color-text-secondary)]">Last name</label>
+              <input
+                type="text"
+                placeholder="Last name"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                className="w-full px-4 py-2.5 rounded-xl bg-[var(--color-surface-3)] border border-[var(--color-border)] text-sm text-[var(--color-text)] placeholder:text-[var(--color-text-muted)] focus:outline-none focus:border-[var(--color-accent)]/50 transition-colors"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-xs font-medium text-[var(--color-text-secondary)]">Email</label>
+            <input
+              type="email"
+              placeholder="Email address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full px-4 py-2.5 rounded-xl bg-[var(--color-surface-3)] border border-[var(--color-border)] text-sm text-[var(--color-text)] placeholder:text-[var(--color-text-muted)] focus:outline-none focus:border-[var(--color-accent)]/50 transition-colors"
+              required
+            />
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-xs font-medium text-[var(--color-text-secondary)]">Password</label>
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-4 py-2.5 rounded-xl bg-[var(--color-surface-3)] border border-[var(--color-border)] text-sm text-[var(--color-text)] placeholder:text-[var(--color-text-muted)] focus:outline-none focus:border-[var(--color-accent)]/50 transition-colors"
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-xl bg-[var(--color-accent)] text-white text-sm font-semibold hover:bg-[var(--color-accent-light)] transition-colors disabled:opacity-50"
+          >
+            Sign up
+          </button>
+        </form>
+
         <p className="text-center text-sm text-[var(--color-text-secondary)]">
           Already have an account?{" "}
           <Link
             href="/auth/login"
-            className="text-[var(--color-accent-light)] hover:underline"
+            className="text-[var(--color-accent-light)] hover:underline font-medium"
           >
-            Sign in
+            Log in
           </Link>
+        </p>
+
+        <p className="text-center text-xs text-[var(--color-text-muted)] px-4">
+          By clicking 'Sign up', you acknowledge that you have read and accepted the Terms of Service and Privacy Policy.
         </p>
       </div>
     </div>

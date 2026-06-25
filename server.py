@@ -136,8 +136,15 @@ class NewsItemResponse(BaseModel):
 
 
 class ProfileRequest(BaseModel):
+    firstName: Optional[str] = None
+    lastName: Optional[str] = None
+    email: Optional[str] = None
     roles: list[str] = []
     skills: list[str] = []
+    locations: list[str] = []
+    experienceLevel: Optional[str] = None
+    minSalary: Optional[str] = None
+    resumeFileName: Optional[str] = None
 
 
 class SourceInfo(BaseModel):
@@ -147,9 +154,16 @@ class SourceInfo(BaseModel):
 
 
 # In-memory profile storage (simple for now)
-_profile: dict[str, list[str]] = {
+_profile: dict[str, Any] = {
+    "firstName": "",
+    "lastName": "",
+    "email": "",
     "roles": [],
     "skills": [],
+    "locations": [],
+    "experienceLevel": "",
+    "minSalary": "",
+    "resumeFileName": ""
 }
 
 
@@ -400,8 +414,15 @@ async def get_profile(request: Request):
 @limiter.limit("60/minute")
 async def save_profile(request: Request, profile: ProfileRequest):
     """Save user profile preferences."""
+    _profile["firstName"] = profile.firstName
+    _profile["lastName"] = profile.lastName
+    _profile["email"] = profile.email
     _profile["roles"] = profile.roles
     _profile["skills"] = profile.skills
+    _profile["locations"] = profile.locations
+    _profile["experienceLevel"] = profile.experienceLevel
+    _profile["minSalary"] = profile.minSalary
+    _profile["resumeFileName"] = profile.resumeFileName
     return {"status": "saved", "profile": _profile}
 
 
