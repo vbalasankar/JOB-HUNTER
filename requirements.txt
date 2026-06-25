@@ -10,3 +10,8 @@ python-dotenv
 slowapi
 sqlmodel
 uvicorn
+lxml
+python-dateutil
+sentence-transformers
+scikit-learn
+rapidfuzz
