@@ -40,6 +40,9 @@ from news.aggregator import get_news
 from storage.db import get_engine, get_session
 from storage.models import Job
 
+from pipeline.ats.models import AtsScoreResponse
+from pipeline.ats import compute_ats_score as run_ats_pipeline
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
@@ -141,18 +144,6 @@ class SourceInfo(BaseModel):
     name: str
     enabled: bool
     type: str  # "ats", "aggregator", "rss", "api"
-
-
-class AtsScoreResponse(BaseModel):
-    overall_score: float
-    hard_skills_score: float
-    soft_skills_score: float
-    role_match_score: float
-    experience_score: float
-    education_score: float
-    matched_keywords: list[str]
-    missing_keywords: list[str]
-    suggestions: list[str]
 
 
 # In-memory profile storage (simple for now)
@@ -468,141 +459,13 @@ async def compute_ats_score(
     if len(final_resume_text) > 100000:
         raise HTTPException(status_code=400, detail="Resume is too long.")
 
-    # Basic ATS scoring logic
-    def extract_keywords(text: str) -> set[str]:
-        # Simple stop words
-        stop_words = {
-            "the",
-            "and",
-            "or",
-            "to",
-            "of",
-            "a",
-            "in",
-            "for",
-            "is",
-            "on",
-            "that",
-            "by",
-            "this",
-            "with",
-            "i",
-            "you",
-            "it",
-            "not",
-            "be",
-            "are",
-            "from",
-            "at",
-            "as",
-            "your",
-            "all",
-            "have",
-            "new",
-            "more",
-            "an",
-            "was",
-            "we",
-            "will",
-            "home",
-            "can",
-            "us",
-            "about",
-            "if",
-            "page",
-            "my",
-            "has",
-            "our",
-            "what",
-            "how",
-            "who",
-        }
-        # Find all words (alphanumeric)
-        words = re.findall(r"\b[a-z0-9]+\b", text.lower())
-        return {w for w in words if w not in stop_words and len(w) > 2}
-
-    jd_keywords = extract_keywords(job_description)
-    resume_keywords = extract_keywords(final_resume_text)
-
-    if not jd_keywords:
-        return AtsScoreResponse(
-            overall_score=0.0,
-            hard_skills_score=0.0,
-            soft_skills_score=0.0,
-            role_match_score=0.0,
-            experience_score=0.0,
-            education_score=0.0,
-            matched_keywords=[],
-            missing_keywords=[],
-            suggestions=["Job description contains no usable keywords."],
-        )
-
-    matched = jd_keywords.intersection(resume_keywords)
-    missing = jd_keywords.difference(resume_keywords)
-
-    # Calculate keyword match percentage
-    keyword_match_pct = len(matched) / len(jd_keywords)
-
-    # Heuristics for different scores based on keyword density
-    # In a real app, this would use an NLP model or LLM.
-    hard_skills_score = min(keyword_match_pct * 1.6, 1.0)
-    soft_skills_score = min(
-        keyword_match_pct * 1.2 + 0.2, 1.0
-    )  # Assume some basic soft skills
-    role_match_score = min(keyword_match_pct * 1.5, 1.0)
-
-    # Simple experience check
-    exp_matches = re.findall(r"\b(\d+)\+?\s*(?:years?|yrs?)\b", job_description.lower())
-    experience_score = 0.8
-    suggestions = []
-    if exp_matches:
-        suggestions.append(
-            f"Make sure your resume clearly shows {exp_matches[0]} years of experience."
-        )
-        if not re.search(r"\b\d+\+?\s*(?:years?|yrs?)\b", final_resume_text.lower()):
-            experience_score = 0.4
-
-    education_score = 0.9  # Assume OK unless specific degrees missed
-    if "bachelor" in job_description.lower() or "degree" in job_description.lower():
-        if (
-            "bachelor" not in final_resume_text.lower()
-            and "degree" not in final_resume_text.lower()
-            and "bs" not in final_resume_text.lower()
-            and "ba" not in final_resume_text.lower()
-        ):
-            education_score = 0.3
-            suggestions.append(
-                "Job description mentions a degree. Make sure your education is clearly listed."
-            )
-
-    overall_score = (
-        (hard_skills_score * 0.4)
-        + (soft_skills_score * 0.15)
-        + (role_match_score * 0.25)
-        + (experience_score * 0.1)
-        + (education_score * 0.1)
-    )
-
-    # Sort keywords by length (often longer = more specific technical terms)
-    sorted_matched = sorted(list(matched), key=len, reverse=True)[:20]
-    sorted_missing = sorted(list(missing), key=len, reverse=True)[:20]
-
-    if len(sorted_missing) > 0:
-        suggestions.append(
-            f"Consider adding these keywords to your resume: {', '.join(sorted_missing[:5])}."
-        )
-
-    return AtsScoreResponse(
-        overall_score=overall_score,
-        hard_skills_score=hard_skills_score,
-        soft_skills_score=soft_skills_score,
-        role_match_score=role_match_score,
-        experience_score=experience_score,
-        education_score=education_score,
-        matched_keywords=sorted_matched,
-        missing_keywords=sorted_missing,
-        suggestions=suggestions,
-    )
+    # Call the new Enterprise ATS Engine
+    try:
+        result = run_ats_pipeline(final_resume_text, job_description)
+        return result
+    except Exception as e:
+        logger.error(f"Error computing ATS score: {e}")
+        raise HTTPException(status_code=500, detail="Error computing ATS score. Check server logs.")
 
 
 @app.get("/")
